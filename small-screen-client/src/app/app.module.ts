@@ -1,9 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
+import { HttpModule } from '@angular/http';
+
+import { UserService } from './shared/services/user.service';
+import { ApiService } from './shared/services/api.service';
+import { JwtService } from './shared/services/jwt.service';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -30,11 +35,13 @@ import { SigninComponent } from './signin/signin.component';
     BrowserModule,
     NgbModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
+    HttpModule,
     AppRoutingModule,
     HomeModule
   ],
-  providers: [],
+  providers: [UserService, ApiService, JwtService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
