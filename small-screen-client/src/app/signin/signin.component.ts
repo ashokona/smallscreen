@@ -29,9 +29,10 @@ export class SigninComponent implements OnInit {
         email : this.myForm.value.email,
         password:this.myForm.value.password
     } 
-    this.userservice.registerUser(userDetails).subscribe(
+    this.userservice.attemptAuth(userDetails).subscribe(
       res => {
         console.log(res);
+        this.router.navigate([res.role])
       },
       err => {
         console.log(err);

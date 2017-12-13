@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 
 import { ProfileComponent } from './components/profile/profile.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   imports: [

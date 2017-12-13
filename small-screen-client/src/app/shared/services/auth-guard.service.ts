@@ -21,16 +21,15 @@ export class AuthGuardService implements CanActivate{
       if (bool) {
         let role = this.userService.getCurrentUser().role.toLocaleLowerCase();
         let currentUrl = state.url.toLowerCase().split('/')[1];
-        
         if(role === currentUrl){
             return bool
         }else{
-          this.router.navigate(['/']);
+          this.router.navigate(['']);
         }
         
       }
       else{
-        this.router.navigate(['/']);
+        this.router.navigate(['']);
       }
     });
   }

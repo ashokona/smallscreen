@@ -1,5 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Subscription }   from 'rxjs/Subscription';
+import { UserService } from '../services/user.service';
 
 @Component({
     selector: 'app-navbar',
@@ -9,9 +12,21 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
+    currentUser:any;
+    subscription: Subscription;
 
-    constructor(public location: Location, private element : ElementRef) {
+    constructor(
+        public location: Location, 
+        private element : ElementRef,
+        private userService : UserService,
+        private router : Router
+    ) {
         this.sidebarVisible = false;
+        this.subscription = userService.currentUser.subscribe(
+            user => {
+              this.currentUser = user
+            }
+          );
     }
 
     ngOnInit() {
@@ -49,7 +64,6 @@ export class NavbarComponent implements OnInit {
     };
     isHome() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
-
         if( titlee === '/home' ) {
             return true;
         }
@@ -58,8 +72,9 @@ export class NavbarComponent implements OnInit {
         }
     }
     isTalent() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '/talent' ) {
+        var titlee = this.location.prepareExternalUrl(this.location.path()).split('/')[1];
+        // var titlee = this.currentUser.role
+        if( titlee === 'talent' ) {
             return true;
         }
         else {
@@ -67,12 +82,17 @@ export class NavbarComponent implements OnInit {
         }
     }
     isProduction() {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '/production' ) {
+        var titlee = this.location.prepareExternalUrl(this.location.path()).split('/')[1];
+        // var titlee = this.currentUser.role        
+        if( titlee === 'production' ) {
             return true;
         }
         else {
             return false;
         }
+    }
+    signout(){
+        this.userService.purgeAuth();
+        this.router.navigate([''])
     }
 }

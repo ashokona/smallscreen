@@ -77,9 +77,9 @@ export class UserService {
     const route = 'user/save'
     return this.apiService.post(route, details)
       .map(
-      data => {
-        return data;
-      }
+        data => {
+          return data;
+        }
       )
   }
 

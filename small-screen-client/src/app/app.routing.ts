@@ -12,16 +12,18 @@ import { SignupComponent } from './signup/signup.component';
 import { LandingComponent } from './landing/landing.component';
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { SigninComponent } from './signin/signin.component';
+import { VerifyTokenComponent } from './/verify-token/verify-token.component';
 
 const routes: Routes =[
-    { path: 'home',             component: HomeComponent },
+    { path: 'home',             component: HomeComponent, canActivate:[NoauthGuardService] },
     { path: 'user-profile',     component: ProfileComponent },
-    { path: 'signup',           component: SignupComponent },
-    { path: 'signin',           component: SigninComponent },
+    { path: 'signup',           component: SignupComponent , canActivate:[NoauthGuardService] },
+    { path: 'signin',           component: SigninComponent , canActivate:[NoauthGuardService]},
     { path: 'landing',          component: LandingComponent },
     { path: 'nucleoicons',      component: NucleoiconsComponent },
-    { path: 'production', loadChildren:'./production-house/production-house.module#ProductionHouseModule' },
-    { path: 'talent', loadChildren:'./showcase-talent/showcase-talent.module#ShowcaseTalentModule' },
+    { path: 'verify/:token',      component: VerifyTokenComponent },
+    { path: 'production', loadChildren:'./production-house/production-house.module#ProductionHouseModule', canActivate:[AuthGuardService] },
+    { path: 'talent', loadChildren:'./showcase-talent/showcase-talent.module#ShowcaseTalentModule', canActivate:[AuthGuardService] },
     { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

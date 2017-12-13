@@ -4,12 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
+var errorhandler = require('errorhandler');
+var mongoose = require('mongoose');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var isProduction = process.env.NODE_ENV === 'production';
+
+
 
 var app = express();
 
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -23,8 +28,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use('/', index);
-app.use('/users', users);
+require('./models/User');
+require('./models/tempToken');
+
+if (isProduction) {
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+    mongoose.connect('mongodb://sscreen:sscreen@ds137256.mlab.com:37256/smallscreen');
+    mongoose.set('debug', true);
+}
+
+
+app.use(require('./routes'));
+
 app.get('/*', function(req, res) {
     res.sendFile(__dirname + '/dist/index.html');
 });

@@ -19,6 +19,7 @@ export class NoauthGuardService implements CanActivate{
     return this.userService.isAuthenticated.take(1).map(bool => {
       if (bool) {
          let role = this.userService.getCurrentUser().role.toLocaleLowerCase();
+         console.log(role);
          this.router.navigate([role]);
       }
       return !bool;

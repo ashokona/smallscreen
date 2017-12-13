@@ -31,12 +31,13 @@ export class SignupComponent implements OnInit {
             password:this.myForm.value.password,
             role:this.myForm.value.role
         } 
-        this.userservice.attemptAuth(userDetails).subscribe(
+        this.userservice.registerUser(userDetails).subscribe(
             res => {
-      
+                console.log(res)
             },
             err => {
-      
+                console.log(err)
+                
             }
           )
     }

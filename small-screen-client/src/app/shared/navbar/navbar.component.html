@@ -27,7 +27,7 @@
                         <a class="nav-link" id="dropdownBasic1" [routerLink]="" ngbDropdownToggle> <i class="fa fa-user"></i>Hi Brad</a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
                             <a class="dropdown-item" [routerLink]="['/talent']">User Profile</a>
-                            <a class="dropdown-item">LogOut</a>
+                            <a class="dropdown-item" (click)="signout()">Sign Out</a>
                         </div>
                     </div>
                 </li>
