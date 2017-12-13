@@ -18,6 +18,8 @@ export class SignupComponent implements OnInit {
     email:AbstractControl;
     password:AbstractControl;
     role:AbstractControl;
+    msgs = [];
+    signupButton: String = "Sign Up";
 
     constructor(
         private router: Router,
@@ -26,6 +28,8 @@ export class SignupComponent implements OnInit {
     ) { }
 
     signup(){
+        this.msgs = []
+        this.signupButton = "loading..."
         const userDetails = {
             email : this.myForm.value.email,
             password:this.myForm.value.password,
@@ -33,11 +37,13 @@ export class SignupComponent implements OnInit {
         } 
         this.userservice.registerUser(userDetails).subscribe(
             res => {
-                console.log(res)
+                this.msgs.push({severity:'success', summary:'', detail:res.message});
+                this.signupButton = "Sign Up"
+                this.myForm.reset();                
             },
             err => {
-                console.log(err)
-                
+                this.signupButton = "Sign Up"                
+                this.msgs.push({severity:'error', summary:'', detail:err.title});                
             }
           )
     }

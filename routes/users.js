@@ -42,7 +42,7 @@ router.post('/auth', function(req, res, next) {
             });
         } else if (!user) {
             return res.status(401).json({
-                title: 'Not registered',
+                title: 'Email not registered',
                 error: { message: 'Please register to login' }
             });
         } else if (!user.validPassword(req.body.password)) {
@@ -51,7 +51,7 @@ router.post('/auth', function(req, res, next) {
                 error: { message: 'Invalid login credentials' }
             });
         } else if (!user.emailVerified) {
-            var token = new VerifyToken();
+            var token = new tempToken();
             token.user = user._id;
             token.token = crypto.randomBytes(16).toString('hex')
             token.save(function(err) {
@@ -61,12 +61,13 @@ router.post('/auth', function(req, res, next) {
                         error: err
                     });
                 }
+                let toVerify = "email"
 
                 var confirmationLink = serverUrl + 'verify/' + token.token + '?toverify=' + toVerify;
                 var mailOptions = {
                     from: 'noreply@anydayemployment.com',
                     to: user.email,
-                    subject: 'Congratulations ' + user.Firstname + ', Welcome to Any Day Employment - Dental Connections',
+                    subject: 'Congratulations ' + ', Welcome to Any Day Employment - Dental Connections',
                     // text: 'eaders.host + '\/user' + '\/confirmation\/' + token.token + '.\n'
                     html: '<b>Welcome <strong>' + '</strong>,</b><br>' +
                         ' <a href="' + confirmationLink + '">click here</a>'
@@ -75,8 +76,8 @@ router.post('/auth', function(req, res, next) {
 
                 MailService(mailOptions)
                     .then(result => {
-                        res.status(200).json({
-                            message: 'Email not yet verified, verify email sent to ' + user.email + ' to login.',
+                        res.status(401).json({
+                            title: 'Email not yet verified, verify email sent to ' + user.email + ' .',
                         });
                     })
                     .catch(err => {
@@ -110,7 +111,7 @@ router.post('/save', function(req, res, next) {
         }
         if (user) {
             return res.status(401).json({
-                title: 'This email address is already registered with us. Please use the login page to login to your account',
+                title: 'Email already registered!',
                 error: { message: 'please login' }
             });
         } else {
@@ -152,7 +153,7 @@ router.post('/save', function(req, res, next) {
                         MailService(mailOptions)
                             .then(data => {
                                 res.status(200).json({
-                                    message: 'Congrats your are sucessfully registered, verfy email sent to ' + result.email + ' to continue to login.',
+                                    message: 'Sucessfully registered, verfy email sent to ' + result.email + ' .',
                                 });
                             })
                             .catch(err => {
@@ -242,7 +243,7 @@ router.get('/resendconfirmation/:id', auth.required, function(req, res, next) {
                 error: { message: 'please Login' }
             });
         } else {
-            var token = new VerifyToken();
+            var token = new tempToken();
             token.user = user._id;
             token.token = crypto.randomBytes(16).toString('hex')
             token.save(function(err) {
@@ -252,6 +253,7 @@ router.get('/resendconfirmation/:id', auth.required, function(req, res, next) {
                         error: err
                     });
                 }
+                let toVerify = "email"
 
                 var confirmationLink = serverUrl + token.token;
                 var mailOptions = {

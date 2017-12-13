@@ -6,6 +6,8 @@
                 <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div class="card card-register">
                         <h3 class="title">Welcome</h3>
+                        <p-messages [(value)]="msgs"></p-messages>
+
                         <!-- <div class="col-sm-3">
                             <div class="form-group has-success">
                                 <input type="text" class="form-control form-control-success" id="inputSuccess1" value="Success">
@@ -45,7 +47,7 @@
                                 </span>
                             </div>
 
-                            <button class="btn btn-danger btn-block btn-round" [disabled]="!myForm.valid">Sign Up</button>
+                            <button class="btn btn-danger btn-block btn-round" [disabled]="!myForm.valid || (signupButton==='loading...')">{{signupButton}}</button>
                         </form>
                         <div class="forgot">
                             <a [routerLink]="['/signin']" class="btn btn-link btn-danger">Sign In</a>

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   imports: [
