@@ -11,6 +11,7 @@ import { HomeService } from '../shared/services/home.service';
 export class VerifyTokenComponent implements OnInit {
   token: String;
   toverify: String;
+  msgs = [];
   
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -22,9 +23,12 @@ export class VerifyTokenComponent implements OnInit {
       this.homeService.verifyEmail(this.token).subscribe(
         res => {
           console.log(res)
+          this.msgs.push({severity:'success', summary:'', detail:res.message});
+          
         },
         err => {
-          console.log(err)
+          this.msgs.push({severity:'error', summary:'', detail:err.title});                
+          
         }
       )
     }
