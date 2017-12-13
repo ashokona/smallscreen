@@ -32,7 +32,7 @@ require('./models/User');
 require('./models/tempToken');
 
 if (isProduction) {
-    mongoose.connect(process.env.MONGODB_URI);
+    mongoose.connect('mongodb://sscreen:sscreen@ds137686.mlab.com:37686/smallscreenprod');
 } else {
     mongoose.connect('mongodb://sscreen:sscreen@ds137256.mlab.com:37256/smallscreen');
     mongoose.set('debug', true);
